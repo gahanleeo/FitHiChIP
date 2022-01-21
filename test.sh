@@ -1454,8 +1454,7 @@ echo -e "\n\n ================ creating full feature file for FitHiChIP ========
 # Use of ICE / coverage bias results in different feature files
 if [ $BiasType == 2 ]; then
 	AllFeatFile=$AllFeatureDir'/'$PREFIX'.AllBin_CompleteFeat_ICE.bed'
-	# ADD AQUA HERE
-	# awk ...
+
 else
 	AllFeatFile=$AllFeatureDir'/'$PREFIX'.AllBin_CompleteFeat.bed'
 fi
@@ -1507,6 +1506,9 @@ if [[ ! -f $AllFeatFile || $OverWrite == 1 ]]; then
 	fi	
 	echo '======== Created full feature file : '$AllFeatFile	
 fi
+
+# ADD AQUA HERE? 
+$AllFeatFile = awk'{}'...
 
 #=================
 # now we plot various features for individual genomic bins
