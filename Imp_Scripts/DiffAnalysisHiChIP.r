@@ -810,14 +810,15 @@ for (i in (1:length(ChIPAlignFileList))) {
 		}
 	} else {
 		# either BAM file or plain bedgraph format
+		# first run if code to create bin with coverage: chr start end coverage
+		# then run else code since i = 2 in second run in loop, merge the coverage into the MergedChIPCovFile
+		# mv: rename the file as MergedChIPCovFile to replace the original one
 		if (i == 1) {			
 			system(paste("bedtools coverage -a", TargetBinnedChrFile, "-b", ChIPAlignFileList[i], "-counts >", MergedChIPCovFile))
 		} else {			
 			system(paste("bedtools coverage -a", TargetBinnedChrFile, "-b", ChIPAlignFileList[i], "-counts | cut -f4 >", tempfile1))#get the 4th col woth coverage
 			system(paste("paste", MergedChIPCovFile, tempfile1, ">", tempfile2))#paste like merge two file
 			system(paste("mv", tempfile2, MergedChIPCovFile))
-			# using mv command to merge temp2 to the Mergedfile, so the loop will cerated a Merge file with two column with coverage count
-			# ex: chip_seq1_count chip_seq2_count
 		}		
 	}
 }	# end input file loop
