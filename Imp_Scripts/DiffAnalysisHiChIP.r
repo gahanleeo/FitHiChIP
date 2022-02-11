@@ -813,15 +813,18 @@ for (i in (1:length(ChIPAlignFileList))) {
 		# first run if code to create bin with coverage: chr start end coverage
 		# then run else code since i = 2 in second run in loop, merge the coverage into the MergedChIPCovFile
 		# mv: rename the file as MergedChIPCovFile to replace the original one
-		if (i == 1) {			
-			system(paste("bedtools coverage -a", TargetBinnedChrFile, "-b", ChIPAlignFileList[i], "-counts >", MergedChIPCovFile))
-		} else {			
-			system(paste("bedtools coverage -a", TargetBinnedChrFile, "-b", ChIPAlignFileList[i], "-counts | cut -f4 >", tempfile1))#get the 4th col woth coverage
-			system(paste("paste", MergedChIPCovFile, tempfile1, ">", tempfile2))#paste like merge two file
-			system(paste("mv", tempfile2, MergedChIPCovFile))
-		}		
-	}
-}	# end input file loop
+		#if (i == 1) {			
+		#	system(paste("bedtools coverage -a", TargetBinnedChrFile, "-b", ChIPAlignFileList[i], "-counts >", MergedChIPCovFile))
+		#} else {			
+		#	system(paste("bedtools coverage -a", TargetBinnedChrFile, "-b", ChIPAlignFileList[i], "-counts | cut -f4 >", tempfile1))#get the 4th col woth coverage
+		#	system(paste("paste", MergedChIPCovFile, tempfile1, ">", tempfile2))#paste like merge two file
+		#	system(paste("mv", tempfile2, MergedChIPCovFile))
+		#}
+		# use bedmap, swith NAN to 0, get the mean 
+		
+}
+
+# end input file loop
 
 # now scale the ChIP coverages according to different categories
 Merged_ChIPCovData <- data.table::fread(MergedChIPCovFile, header=F, sep="\t", stringsAsFactors=F)
