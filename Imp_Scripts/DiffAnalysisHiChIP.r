@@ -821,6 +821,14 @@ for (i in (1:length(ChIPAlignFileList))) {
 		#	system(paste("mv", tempfile2, MergedChIPCovFile))
 		#}
 		# use bedmap, swith NAN to 0, get the mean 
+		if (i == 1){
+			system(paste("bedmap --echo --mean", TargetBinnedChrFile,ChIPAlignFileList[i], ">", MergedChIPCovFile))
+			system(paste("awk '{sub(/\|/,"\t"); print $0}'",MergedChIPCovFile ">", MergedChIPCovFile)) # seperate column from "|"
+		} else {
+			system(paste("bedmap --mean", TargetBinnedChrFile,ChIPAlignFileList[i], ">", tempfile1 ))
+			system(paste("paste", MergedChIPCovFile, tempfile1, ">", tempfile2))
+			# replace NAN to 0
+			system(paste("mv", tempfile2, MergedChIPCovFile))
 		
 }
 
